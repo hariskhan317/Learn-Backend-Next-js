@@ -14,7 +14,7 @@ export const GET = async (req, res) => {
 
 export const POST = async (req, res) => {
     try {
-        const { name } = await req.json();;
+        const { name } = await req.json();
         const newUser = {name, id: users.length +1}
         users.push(newUser)
         return NextResponse.json(users)

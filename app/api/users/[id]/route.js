@@ -15,6 +15,25 @@ export const GET = async (req,par, res) => {
     }  
 }
 
+export const PUT = async (req, par) => {
+    try {
+        const { id } = par.params;
+        const { name } = await req.json();
+        const selectedUser = users.find((user) => user.id == id );
+
+        if (!selectedUser) {
+            return NextResponse.json({message: 'Cant find the user'}, {status:400})
+        }
+        selectedUser.name = name;
+ 
+        console.log(selectedUser)
+        return NextResponse.json(selectedUser)
+    } catch (err) {
+        console.log(err);
+        return NextResponse.json({message: 'Error', err}, {status:500})
+    }  
+}
+
 export const DELETE = async (req, par, res) => {
     try {
         const { id } = par.params;

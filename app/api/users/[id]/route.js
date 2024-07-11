@@ -1,11 +1,31 @@
-const { NextResponse } = require("next/server");
-import { users } from '@/lib/db.js'
+import { NextResponse } from "next/server";
+import { users } from '@/lib/db' 
 
-export async function GET(request, par) { 
-    const singleData = users.filter((user) => user.id == par.params.id)
-    if (!singleData) {
-        return NextResponse.json("can't find the data")
-    }
-    console.log(singleData) 
-    return NextResponse.json(singleData)
+export const GET = async (req,par, res) => {
+    try {
+        const { id } = par.params;
+        const selectedUser = users.filter((user) => user.id == id)
+        if (!selectedUser) {
+            return NextResponse.json({message: 'Cant find the user'}, {status:400})
+        }
+        return NextResponse.json(selectedUser)
+    } catch (err) {
+        console.log(err);
+        return NextResponse.json({message: 'Error', err}, {status:500})
+    }  
+}
+
+export const DELETE = async (req, par, res) => {
+    try {
+        const { id } = par.params;
+        const deletedUser = users.filter((user) => user.id != id)
+        if (!deletedUser) {
+            return NextResponse.json({message: 'Cant find the user'}, {status:400})
+        }
+        console.log(deletedUser)
+        return NextResponse.json(deletedUser)
+    } catch (err) {
+        console.log(err);
+        return NextResponse.json({message: 'Error', err}, {status:500})
+    }  
 }
